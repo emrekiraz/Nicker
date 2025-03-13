@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateBrandNames, initGeminiAPI } from "@/services/gemini";
-import { checkDomainAvailability } from "@/services/namecheap";
+import { checkDomainAvailability, initNamecheapAPI } from "@/services/namecheap";
 
 // Fallback brand names in case the API fails
 const fallbackBrandNames = [
@@ -31,20 +31,40 @@ export async function POST(request: NextRequest) {
     }
 
     // Initialize Gemini API with API key from environment variable
-    // In a production app, this would be done at the app level, not per request
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
+    const geminiApiKey = process.env.GEMINI_API_KEY;
+    if (!geminiApiKey) {
       return NextResponse.json(
         { error: "Gemini API key is not configured" },
         { status: 500 }
       );
     }
     
+    // Initialize Namecheap API
+    const namecheapUser = process.env.NAMECHEAP_API_USER;
+    const namecheapApiKey = process.env.NAMECHEAP_API_KEY;
+    const namecheapUsername = process.env.NAMECHEAP_USERNAME;
+    const namecheapClientIp = process.env.NAMECHEAP_CLIENT_IP || "127.0.0.1";
+    
+    if (!namecheapUser || !namecheapApiKey || !namecheapUsername) {
+      return NextResponse.json(
+        { error: "Namecheap API credentials are not configured" },
+        { status: 500 }
+      );
+    }
+    
+    // Initialize both APIs
+    initNamecheapAPI({
+      apiUser: namecheapUser,
+      apiKey: namecheapApiKey,
+      username: namecheapUsername,
+      clientIp: namecheapClientIp
+    });
+    
     let brandNames: string[] = [];
     
     try {
       // Try to generate brand names using the API
-      initGeminiAPI(apiKey);
+      initGeminiAPI(geminiApiKey);
       brandNames = await generateBrandNames(productIdea, keywords, 5);
     } catch (apiError) {
       console.error("Error calling Gemini API, using fallback brand names:", apiError);

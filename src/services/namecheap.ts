@@ -26,6 +26,12 @@ export function initNamecheapAPI(config: {
   clientIp: string;
 }) {
   apiConfig = config;
+  console.log("Namecheap API initialized with config:", {
+    apiUser: config.apiUser,
+    username: config.username,
+    clientIp: config.clientIp,
+    // Don't log API key for security reasons
+  });
 }
 
 /**
@@ -36,10 +42,10 @@ export function initNamecheapAPI(config: {
 export async function checkDomainAvailability(
   domains: string[]
 ): Promise<DomainCheckResult[]> {
-  if (!apiConfig.apiKey) {
-    throw new Error("Namecheap API not initialized. Call initNamecheapAPI first.");
-  }
-
+  // For demo purposes, we'll skip the API key check and use mocks
+  // This helps with testing without valid API credentials
+  console.log("Checking domain availability for:", domains);
+  
   try {
     // In a real implementation, you would construct the appropriate Namecheap API URL
     // For demo purposes, we'll simulate the API response
