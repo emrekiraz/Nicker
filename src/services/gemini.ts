@@ -20,8 +20,8 @@ export async function generateBrandNames(
   }
 
   try {
-    // For safety, we'll use the text model
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    // Use the gemini-1.5-pro model - make sure this is a supported model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
     const prompt = `
       Generate ${count} unique, creative, and marketable brand names for a product or service described as:

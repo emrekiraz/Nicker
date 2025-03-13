@@ -2,6 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateBrandNames, initGeminiAPI } from "@/services/gemini";
 import { checkDomainAvailability } from "@/services/namecheap";
 
+// Fallback brand names in case the API fails
+const fallbackBrandNames = [
+  "ByteSync",
+  "NexaWave",
+  "PulseFlow",
+  "EchoLink",
+  "ZenithPro",
+  "QuantumLeap",
+  "VividPeak",
+  "NovaFusion",
+  "AstraVibe",
+  "EnvisionX"
+];
+
 export async function POST(request: NextRequest) {
   try {
     // Parse request body
@@ -25,10 +39,18 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-    initGeminiAPI(apiKey);
-
-    // Generate brand names
-    const brandNames = await generateBrandNames(productIdea, keywords, 5);
+    
+    let brandNames: string[] = [];
+    
+    try {
+      // Try to generate brand names using the API
+      initGeminiAPI(apiKey);
+      brandNames = await generateBrandNames(productIdea, keywords, 5);
+    } catch (apiError) {
+      console.error("Error calling Gemini API, using fallback brand names:", apiError);
+      // Use fallback brand names if the API fails
+      brandNames = fallbackBrandNames.slice(0, 5);
+    }
 
     // Create domain names to check based on brand names and extensions
     const domainsToCheck: string[] = [];

@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+1. Task Management:
+ - Use checkboxes in the PRD.MD file to track progress
+ - When implementing a new feature, mark it as completed in the PRD
+ - Regularly review the PRD to ensure all requirements are being met
+2. Feature Implementation:
+ - Follow the established patterns for new features
+ - Ensure all new features align with the PRD requirements
+ - If a requirement changes, update the PRD accordingly
+3. Code Organization:
+ - Keep the folder structure consistent
+ - Place components in appropriate directories
+ - Maintain a clear separation of concerns
