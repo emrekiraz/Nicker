@@ -5,8 +5,16 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Nicker - Brand Name Generator",
-  description: "Find the perfect brand name and domain for your next big idea.",
+  title: "Nicker",
+  description: "Generate brand name ideas with AI",
+  icons: {
+    icon: [
+      {
+        url: "/favicon.svg",
+        type: "image/svg+xml",
+      }
+    ],
+  }
 };
 
 export default function RootLayout({

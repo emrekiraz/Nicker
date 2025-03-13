@@ -203,7 +203,7 @@ export default function BrandGeneratorForm() {
             </div>
           )}
           
-          <Button type="submit" className="w-full" disabled={isGenerating}>
+          <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800" disabled={isGenerating}>
             {isGenerating ? "Generating..." : "Generate Brand Names"}
           </Button>
         </form>
@@ -218,7 +218,12 @@ export default function BrandGeneratorForm() {
               <Card key={index}>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold">{suggestion.name}</h3>
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-bold mr-3">
+                        N
+                      </div>
+                      <h3 className="text-xl font-bold">{suggestion.name}</h3>
+                    </div>
                     <Button variant="outline" size="sm">
                       Select
                     </Button>
